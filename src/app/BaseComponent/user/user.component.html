@@ -1,0 +1,79 @@
+
+
+
+ <form [formGroup]="addUserForm" (ngSubmit)="addUser()">
+    <div class="form-row">
+        <div class="form-group col-6">
+            <label for="firstname">Firstname :</label>
+            <input type="text" name="firstname" id="firstname" formControlName="firstname" class="form-control">
+            <div *ngIf="f.firstname.touched && f.firstname.invalid">
+                <small *ngIf="f.firstname.errors.required" class="text-danger">Firstname is required<br></small>
+                <small *ngIf="f.firstname.errors.pattern" class="text-danger">Invalid Firstname<br></small>
+                <small *ngIf="f.firstname.errors.minlength" class="text-danger">Firstname must contain two characters at least</small>
+            </div>
+        </div>
+
+        <div class="form-group col-6">
+            <label for="lastname">Lastname :</label>
+            <input type="text" name="lastname" id="lastname" formControlName="lastname" class="form-control">
+            <div *ngIf="f.lastname.touched && f.lastname.invalid">
+                <small *ngIf="f.lastname.errors.required" class="text-danger">Lastname is required<br></small>
+                <small *ngIf="f.lastname.errors.pattern" class="text-danger">Invalid Lastname<br></small>
+                <small *ngIf="f.lastname.errors.minlength" class="text-danger">Lastname must contain two characters at least</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col">
+            <label for="phone">Phone :</label>
+            <input type="text" name="phone" id="phone" formControlName="phone" class="form-control">
+            <div *ngIf="f.phone.touched && f.phone.invalid">
+                <small *ngIf="f.phone.errors.required" class="text-danger">Phone is required<br></small>
+                <small *ngIf="f.phone.errors.pattern" class="text-danger">Invalid Phone<br></small>
+                <small *ngIf="f.phone.errors.minlength" class="text-danger">Phone must contain 8 characters at least</small>
+                <small *ngIf="f.phone.errors.maxlength" class="text-danger">Phone must contain a maximum of 13 characters</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col">
+            <input type="submit" value="Add User" [disabled]="addUserForm.invalid" class="btn btn-info">
+            <button style="margin-left: 10px;" class="btn btn-secondary" type="reset" (click)="onReset()">Cancel</button>
+
+        </div>
+    </div>
+
+</form>
+
+<div class="row">
+    <div class="col">
+        <div *ngIf='userList.length==0' class="alert alert-danger">No user found</div>
+        <table *ngIf='userList.length > 0' class='table'>
+        
+            <thead>
+                <tr>
+                   <th>Id</th>
+                   <th>First Name</th>
+                   <th>Last Name</th>
+                   <th>Phone</th>
+                </tr>
+            </thead>
+           <tbody>
+               <tr *ngFor="let user of userList ,let i=index ">
+                   <td>{{i+1}}</td>
+                   <td>{{user.firstname}}</td>
+                   <td>{{user.lastname}}</td>
+                   <td>{{user.phone}}</td>
+                   <td>
+                       <button class="btn btn-info" [routerLink]="['/details',user._id]" >Details</button>
+                       <button class="btn btn-danger mx-3" (click)='Delete(user)'>Delete</button>
+                       <button class='btn btn-warning' [routerLink]="['/update',user._id]">Update</button>
+                   </td>
+               </tr>
+           </tbody>
+           </table>
+    </div>
+  
+</div>
